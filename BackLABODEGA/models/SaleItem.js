@@ -2,7 +2,7 @@ import { DataTypes } from 'sequelize';
 import sequelize from '../config/db.js';
 
 const SaleItem = sequelize.define('SaleItem', {
-    productName: { // Guardamos el nombre por si borras el producto del catálogo, el historial no se rompa
+    productName: { 
         type: DataTypes.STRING,
         allowNull: false
     },

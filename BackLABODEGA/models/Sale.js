@@ -7,7 +7,7 @@ const Sale = sequelize.define('Sale', {
         allowNull: false
     },
     paymentMethod: {
-        type: DataTypes.STRING, // 'EFECTIVO' o 'TRANSFERENCIA'
+        type: DataTypes.STRING, 
         allowNull: false
     },
     seller: {
@@ -18,7 +18,6 @@ const Sale = sequelize.define('Sale', {
         type: DataTypes.STRING,
         defaultValue: 'PÚBLICO EN GENERAL'
     },
-    // Guardamos estos datos por si el cliente cambia de dirección en el futuro, el ticket histórico no cambie
     customerAddress: {
         type: DataTypes.STRING
     },
@@ -26,7 +25,7 @@ const Sale = sequelize.define('Sale', {
         type: DataTypes.STRING
     }
 }, {
-    timestamps: true // Guarda fecha y hora de venta automáticamente
+    timestamps: true 
 });
 
 export default Sale;

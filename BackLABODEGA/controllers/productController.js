@@ -1,6 +1,5 @@
 import Product from '../models/Product.js';
 
-// 1. Obtener todos
 export const getAllProducts = async (req, res) => {
     try {
         const products = await Product.findAll();
@@ -11,10 +10,8 @@ export const getAllProducts = async (req, res) => {
     }
 };
 
-// 2. Crear producto
 export const createProduct = async (req, res) => {
     try {
-        // Recibimos todos los datos, incluido cost
         const newProduct = await Product.create(req.body);
         res.json(newProduct);
     } catch (error) {
@@ -23,7 +20,6 @@ export const createProduct = async (req, res) => {
     }
 };
 
-// 3. Actualizar producto
 export const updateProduct = async (req, res) => {
     try {
         const { id } = req.params;
@@ -33,7 +29,6 @@ export const updateProduct = async (req, res) => {
             return res.status(404).json({ message: 'Producto no encontrado' });
         }
 
-        // Actualiza con los datos que vengan en el body
         await product.update(req.body);
         res.json(product);
     } catch (error) {
@@ -42,7 +37,6 @@ export const updateProduct = async (req, res) => {
     }
 };
 
-// 4. Eliminar producto
 export const deleteProduct = async (req, res) => {
     try {
         const { id } = req.params;

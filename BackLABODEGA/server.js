@@ -5,11 +5,15 @@ import sequelize, { connectDB } from './config/db.js';
 import Product from './models/Product.js';
 import Sale from './models/Sale.js';
 import SaleItem from './models/SaleItem.js';
+import StoreConfig from './models/StoreConfig.js';
+import User from './models/User.js';
+import Seller from './models/Seller.js';
 
 import productRoutes from './routes/productRoutes.js';
 import saleRoutes from './routes/saleRoutes.js';
 import authRoutes from './routes/authRoutes.js'; 
-import User from './models/User.js';
+import sellersRoutes from './routes/sellersRoutes.js'; // <--- IMPORTAR
+
 
 dotenv.config();
 
@@ -34,6 +38,7 @@ sequelize.sync({ alter: true })
 app.use('/api/products', productRoutes);
 app.use('/api/sales', saleRoutes); 
 app.use('/api/auth', authRoutes);
+app.use('/api', sellersRoutes);
 
 app.listen(PORT, () => {
     console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);

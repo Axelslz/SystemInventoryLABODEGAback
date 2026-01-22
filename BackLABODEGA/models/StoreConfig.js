@@ -4,13 +4,13 @@ import sequelize from '../config/db.js';
 const StoreConfig = sequelize.define('StoreConfig', {
     storeName: {
         type: DataTypes.STRING,
-        defaultValue: 'LA BODEGA' // Valor por defecto si no ponen nada
+        defaultValue: 'LA BODEGA' 
     },
     slogan: {
         type: DataTypes.STRING
     },
     address: {
-        type: DataTypes.TEXT // TEXT permite más caracteres que STRING
+        type: DataTypes.TEXT 
     },
     phone: {
         type: DataTypes.STRING
@@ -19,7 +19,7 @@ const StoreConfig = sequelize.define('StoreConfig', {
         type: DataTypes.STRING
     },
     footerMessage: {
-        type: DataTypes.TEXT // Para el mensaje de despedida largo
+        type: DataTypes.TEXT 
     }
 }, {
     timestamps: true

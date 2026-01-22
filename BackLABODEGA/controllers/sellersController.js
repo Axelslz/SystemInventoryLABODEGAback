@@ -1,10 +1,9 @@
 import Seller from '../models/Seller.js';
 
-// OBTENER TODOS LOS VENDEDORES
 export const getSellers = async (req, res) => {
     try {
         const sellers = await Seller.findAll({
-            order: [['name', 'ASC']] // Ordenarlos alfabéticamente
+            order: [['name', 'ASC']] 
         });
         res.json(sellers);
     } catch (error) {
@@ -12,7 +11,6 @@ export const getSellers = async (req, res) => {
     }
 };
 
-// CREAR UN VENDEDOR
 export const createSeller = async (req, res) => {
     const { name } = req.body;
 
@@ -26,7 +24,6 @@ export const createSeller = async (req, res) => {
     }
 };
 
-// ELIMINAR UN VENDEDOR
 export const deleteSeller = async (req, res) => {
     const { id } = req.params;
 
@@ -39,7 +36,7 @@ export const deleteSeller = async (req, res) => {
             return res.status(404).json({ message: 'Vendedor no encontrado' });
         }
 
-        return res.sendStatus(204); // 204 significa éxito sin contenido
+        return res.sendStatus(204); 
     } catch (error) {
         return res.status(500).json({ message: 'Error al eliminar vendedor', error: error.message });
     }

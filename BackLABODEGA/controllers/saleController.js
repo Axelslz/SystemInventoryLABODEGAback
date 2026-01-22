@@ -61,3 +61,24 @@ export const getSalesHistory = async (req, res) => {
         res.status(500).json({ message: 'Error al obtener historial' });
     }
 };
+
+export const markSaleAsPaid = async (req, res) => {
+    const { id } = req.params; 
+
+    try {
+        const sale = await Sale.findByPk(id);
+
+        if (!sale) {
+            return res.status(404).json({ message: 'Venta no encontrada' });
+        }
+
+        sale.paymentMethod = 'EFECTIVO';
+        await sale.save(); 
+
+        res.json({ message: 'Deuda liquidada correctamente', sale });
+
+    } catch (error) {
+        console.error("Error al cobrar deuda:", error);
+        res.status(500).json({ message: 'Error al actualizar la venta' });
+    }
+}

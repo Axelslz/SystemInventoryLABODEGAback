@@ -1,13 +1,10 @@
 import StoreConfig from '../models/StoreConfig.js';
 
-// 1. OBTENER LA CONFIGURACIÓN ACTUAL
 export const getStoreConfig = async (req, res) => {
     try {
-        // Buscamos el primer registro que encontremos (solo debería haber uno)
         const config = await StoreConfig.findOne();
         
         if (!config) {
-            // Si no hay configuración guardada aún, devolvemos un objeto vacío o nulo
             return res.json(null);
         }
         
@@ -17,17 +14,13 @@ export const getStoreConfig = async (req, res) => {
     }
 };
 
-// 2. GUARDAR O ACTUALIZAR CONFIGURACIÓN
 export const saveStoreConfig = async (req, res) => {
     const { storeName, slogan, address, phone, email, footerMessage } = req.body;
 
     try {
-        // Buscamos si ya existe una configuración
         const existingConfig = await StoreConfig.findOne();
 
         if (existingConfig) {
-            // --- CASO ACTUALIZAR ---
-            // Si ya existe, actualizamos sus campos
             await existingConfig.update({
                 storeName,
                 slogan,
@@ -38,7 +31,6 @@ export const saveStoreConfig = async (req, res) => {
             });
             return res.json(existingConfig);
         } else {
-            // --- CASO CREAR (Primera vez) ---
             const newConfig = await StoreConfig.create({
                 storeName,
                 slogan,

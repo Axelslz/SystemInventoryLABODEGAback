@@ -6,6 +6,11 @@ const Product = sequelize.define('Product', {
         type: DataTypes.STRING,
         allowNull: false
     },
+    provider: {
+        type: DataTypes.STRING,
+        allowNull: true,       
+        defaultValue: 'General' 
+    }, 
     stock: {
         type: DataTypes.INTEGER,
         defaultValue: 0

@@ -5,10 +5,10 @@ const Seller = sequelize.define('Seller', {
     name: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true // Para evitar tener dos vendedores con el mismo nombre
+        unique: true 
     }
 }, {
-    timestamps: true // Esto agrega createdAt y updatedAt automáticamente
+    timestamps: true 
 });
 
 export default Seller;

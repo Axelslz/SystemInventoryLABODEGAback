@@ -1,6 +1,4 @@
-// src/routes/sellersRoutes.js
 import { Router } from 'express';
-// Fíjate que aquí coincida mayúsculas y minúsculas con el archivo real
 import { getSellers, createSeller, deleteSeller } from '../controllers/sellersController.js'; 
 
 const router = Router();

@@ -1,8 +1,8 @@
 import Sale from '../models/Sale.js';
 import SaleItem from '../models/SaleItem.js';
 import Product from '../models/Product.js';
-import sequelize from '../config/db.js';
-import Expense from '../models/Expense.js';
+import Expense from '../models/Expense.js'; 
+import sequelize from '../config/db.js';   
 
 export const createSale = async (req, res) => {
 
@@ -85,26 +85,32 @@ export const markSaleAsPaid = async (req, res) => {
 };
 
 export const resetSystemHistory = async (req, res) => {
+    // Iniciamos una transacción para que si algo falla, no se borre nada a medias
     const t = await sequelize.transaction();
 
     try {
-        // 1. Borrar todas las partidas de venta (detalle)
-        await SaleItem.destroy({ where: {}, truncate: true, transaction: t });
-        
-        // 2. Borrar todas las ventas (cabecera)
-        await Sale.destroy({ where: {}, truncate: true, cascade: true, transaction: t });
+        console.log("🔄 Iniciando limpieza de sistema...");
 
-        // 3. Borrar todos los gastos (opcional, si quieres limpiar gastos también)
-        await Expense.destroy({ where: {}, truncate: true, transaction: t });
+        // 1. Borrar Detalle de Ventas (SaleItems) primero
+        await SaleItem.destroy({ where: {}, transaction: t });
 
-        // NOTA: No borramos Productos ni Usuarios para no perder el catálogo.
+        // 2. Borrar Ventas (Cabecera)
+        await Sale.destroy({ where: {}, transaction: t });
+
+        // 3. Borrar Gastos
+        await Expense.destroy({ where: {}, transaction: t });
 
         await t.commit();
-        res.json({ message: 'Historial de ventas y gastos eliminado correctamente. Sistema en $0.00' });
+        console.log("✅ Sistema reiniciado correctamente.");
+        
+        res.json({ message: 'Historial eliminado. Sistema en $0.00' });
 
     } catch (error) {
         await t.rollback();
-        console.error("Error al reiniciar sistema:", error);
-        res.status(500).json({ message: 'Error al reiniciar el sistema' });
+        console.error("❌ Error CRÍTICO al reiniciar sistema:", error);
+        res.status(500).json({ 
+            message: 'Error interno al reiniciar el sistema', 
+            error: error.message 
+        });
     }
 };

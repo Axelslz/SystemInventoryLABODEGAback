@@ -17,7 +17,7 @@ import saleRoutes from './routes/saleRoutes.js';
 import authRoutes from './routes/authRoutes.js'; 
 import sellersRoutes from './routes/sellersRoutes.js'; 
 import maintenanceRoutes from './routes/maintenanceRoutes.js'; 
-import expenseRoutes from './routes/expenseRoutes.js'; s
+import expenseRoutes from './routes/expenseRoutes.js'; // <--- YA LE QUITÉ LA 's' AQUÍ
 
 dotenv.config();           
 

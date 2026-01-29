@@ -85,19 +85,15 @@ export const markSaleAsPaid = async (req, res) => {
 };
 
 export const resetSystemHistory = async (req, res) => {
-    // Iniciamos una transacción para que si algo falla, no se borre nada a medias
     const t = await sequelize.transaction();
 
     try {
         console.log("🔄 Iniciando limpieza de sistema...");
 
-        // 1. Borrar Detalle de Ventas (SaleItems) primero
         await SaleItem.destroy({ where: {}, transaction: t });
 
-        // 2. Borrar Ventas (Cabecera)
         await Sale.destroy({ where: {}, transaction: t });
-
-        // 3. Borrar Gastos
+  
         await Expense.destroy({ where: {}, transaction: t });
 
         await t.commit();

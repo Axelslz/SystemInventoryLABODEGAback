@@ -91,7 +91,7 @@ export const resetSystemHistory = async (req, res) => {
         console.log("🔄 Iniciando limpieza de sistema...");
 
         await SaleItem.destroy({ where: {}, transaction: t });
-
+  
         await Sale.destroy({ where: {}, transaction: t });
   
         await Expense.destroy({ where: {}, transaction: t });

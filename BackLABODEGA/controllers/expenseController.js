@@ -1,5 +1,5 @@
 import Expense from '../models/Expense.js';
-
+     
 export const getExpenses = async (req, res) => {
     try {
         const { type } = req.query; 

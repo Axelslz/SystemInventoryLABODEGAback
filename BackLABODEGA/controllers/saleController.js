@@ -9,12 +9,13 @@ export const createSale = async (req, res) => {
     const t = await sequelize.transaction();
 
     try {
-        const { cart, total, paymentMethod, seller, customer } = req.body;
+        const { cart, total, paymentMethod, seller, customer, ticketNumber } = req.body;
 
         const newSale = await Sale.create({
             total,
             paymentMethod,
             seller,
+            ticketNumber: ticketNumber || null, 
             customerName: customer.name,
             customerAddress: customer.address,
             customerPhone: customer.phone
@@ -41,7 +42,7 @@ export const createSale = async (req, res) => {
 
         await t.commit();
 
-        res.status(201).json({ message: 'Venta registrada con éxito', saleId: newSale.id });
+        res.status(201).json({ message: 'Venta registrada con éxito', saleId: newSale.id, ticketNumber: newSale.ticketNumber });
 
     } catch (error) {
         await t.rollback();
@@ -89,13 +90,9 @@ export const resetSystemHistory = async (req, res) => {
 
     try {
         console.log("🔄 Iniciando limpieza de sistema...");
-
         await SaleItem.destroy({ where: {}, transaction: t });
-  
         await Sale.destroy({ where: {}, transaction: t });
-  
         await Expense.destroy({ where: {}, transaction: t });
-
         await t.commit();
         console.log("✅ Sistema reiniciado correctamente.");
         

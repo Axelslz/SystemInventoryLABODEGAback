@@ -14,6 +14,11 @@ const Sale = sequelize.define('Sale', {
         type: DataTypes.STRING,
         allowNull: false
     },
+    ticketNumber: {
+        type: DataTypes.STRING,
+        allowNull: true, 
+        defaultValue: null
+    },
     customerName: {
         type: DataTypes.STRING,
         defaultValue: 'PÚBLICO EN GENERAL'

@@ -14,6 +14,10 @@ const Maintenance = sequelize.define('Maintenance', {
         type: DataTypes.STRING, 
         allowNull: false
     },
+    mileage: {
+        type: DataTypes.INTEGER, 
+        allowNull: true          
+    },
     cost: {
         type: DataTypes.DECIMAL(10, 2),
         allowNull: false

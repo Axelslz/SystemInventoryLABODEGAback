@@ -16,7 +16,7 @@ export const createSeller = async (req, res) => {
 
     if (!name) return res.status(400).json({ message: 'El nombre es requerido' });
 
-    try {
+    try {        
         const newSeller = await Seller.create({ name });
         res.json(newSeller);
     } catch (error) {

@@ -15,7 +15,9 @@ export const createSale = async (req, res) => {
             total,
             paymentMethod,
             seller,
-            ticketNumber: ticketNumber || null, 
+            ticketNumber: ticketNumber || null,  
+
+            
             customerName: customer.name,
             customerAddress: customer.address,
             customerPhone: customer.phone

@@ -11,9 +11,10 @@ export const getMaintenanceRecords = async (req, res) => {
 
 export const createMaintenanceRecord = async (req, res) => {
     try {
-        const { vehicle, type, description, cost, date, notes } = req.body;
+        const { vehicle, type, description, cost, date, notes, mileage } = req.body;
+        
         const newRecord = await Maintenance.create({
-            vehicle, type, description, cost, date, notes
+            vehicle, type, description, cost, date, notes, mileage
         });
         res.json(newRecord);
     } catch (error) {

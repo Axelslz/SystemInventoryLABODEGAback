@@ -4,7 +4,7 @@ import User from '../models/User.js';
 
 export const register = async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { username, password, role } = req.body;
 
     const existingUser = await User.findOne({ where: { username } });
     if (existingUser) {
@@ -17,10 +17,10 @@ export const register = async (req, res) => {
     await User.create({
       username,
       password: hashedPassword,
-      role: 'admin'
+      role: role || 'empleado' 
     });
 
-    res.status(201).json({ message: 'Usuario admin creado con éxito' });
+    res.status(201).json({ message: `Usuario ${role || 'empleado'} creado con éxito` });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Error en el servidor' });
@@ -42,7 +42,7 @@ export const login = async (req, res) => {
     }
 
     const token = jwt.sign(
-      { id: user.id, role: user.role },
+      { id: user.id, role: user.role }, 
       process.env.JWT_SECRET,
       { expiresIn: '12h' }
     );

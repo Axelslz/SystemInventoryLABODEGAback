@@ -61,3 +61,67 @@ export const login = async (req, res) => {
     res.status(500).json({ message: 'Error en el servidor' });
   }
 };
+
+export const getUsers = async (req, res) => {
+  try {
+    // Buscamos todos los usuarios, pero EXCLUIMOS la contraseña por seguridad
+    const users = await User.findAll({ 
+      attributes: { exclude: ['password'] } 
+    });
+    res.json(users);
+  } catch (error) {
+    console.error("Error al obtener usuarios:", error);
+    res.status(500).json({ message: 'Error al obtener la lista de usuarios' });
+  }
+};
+
+// EDITAR USUARIO (Solo Admin)
+export const updateUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { username, password, role } = req.body;
+    
+    const user = await User.findByPk(id);
+    if (!user) {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+
+    // Actualizamos los campos que nos envíen
+    if (username) user.username = username;
+    if (role) user.role = role;
+    
+    // Si el admin decide cambiarle la contraseña al empleado
+    if (password) {
+      const salt = await bcrypt.genSalt(10);
+      user.password = await bcrypt.hash(password, salt);
+    }
+
+    await user.save();
+    
+    res.json({ 
+      message: 'Usuario actualizado correctamente', 
+      user: { id: user.id, username: user.username, role: user.role } 
+    });
+  } catch (error) {
+    console.error("Error al actualizar usuario:", error);
+    res.status(500).json({ message: 'Error al actualizar el usuario' });
+  }
+};
+
+// ELIMINAR USUARIO (Solo Admin)
+export const deleteUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findByPk(id);
+    
+    if (!user) {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+
+    await user.destroy();
+    res.json({ message: 'Usuario eliminado del sistema' });
+  } catch (error) {
+    console.error("Error al eliminar usuario:", error);
+    res.status(500).json({ message: 'Error al eliminar el usuario' });
+  }
+};

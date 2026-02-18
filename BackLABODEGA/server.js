@@ -8,14 +8,12 @@ import Sale from './models/Sale.js';
 import SaleItem from './models/SaleItem.js';
 import StoreConfig from './models/StoreConfig.js';
 import User from './models/User.js';
-import Seller from './models/Seller.js';
 import Maintenance from './models/Maintenance.js'; 
 import Expense from './models/Expense.js'; 
 
 import productRoutes from './routes/productRoutes.js';
 import saleRoutes from './routes/saleRoutes.js';
 import authRoutes from './routes/authRoutes.js'; 
-import sellersRoutes from './routes/sellersRoutes.js'; 
 import maintenanceRoutes from './routes/maintenanceRoutes.js'; 
 import expenseRoutes from './routes/expenseRoutes.js'; 
 
@@ -43,7 +41,6 @@ sequelize.sync({ alter: true })
 app.use('/api/products', productRoutes);
 app.use('/api/sales', saleRoutes); 
 app.use('/api/auth', authRoutes);
-app.use('/api', sellersRoutes);
 app.use('/api/maintenance', maintenanceRoutes); 
 app.use('/api/expenses', expenseRoutes); 
 

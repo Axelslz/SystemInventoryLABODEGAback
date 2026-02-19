@@ -12,8 +12,42 @@ export const getAllProducts = async (req, res) => {
 
 export const createProduct = async (req, res) => {
     try {
-        const newProduct = await Product.create(req.body);
-        res.json(newProduct);
+        const { name, provider, stock, cost, priceRetail, priceWholesale, wholesaleQty } = req.body;
+        
+        const existingProduct = await Product.findOne({
+            where: {
+                name: name,
+                provider: provider || 'General' 
+            }
+        });
+
+        if (existingProduct) {
+            const oldStock = parseInt(existingProduct.stock) || 0;
+            const oldCost = parseFloat(existingProduct.cost) || 0;
+            
+            const newQty = parseInt(stock) || 0;
+            const newCost = parseFloat(cost) || 0;
+
+            const totalStock = oldStock + newQty;
+            let averageCost = oldCost;
+
+            if (totalStock > 0) {
+                averageCost = ((oldStock * oldCost) + (newQty * newCost)) / totalStock;
+            }
+
+            existingProduct.stock = totalStock;
+            existingProduct.cost = averageCost.toFixed(2); 
+            existingProduct.priceRetail = priceRetail;
+            existingProduct.priceWholesale = priceWholesale;
+            existingProduct.wholesaleQty = wholesaleQty;
+
+            await existingProduct.save(); 
+            
+            return res.status(200).json(existingProduct); 
+        } else {
+            const newProduct = await Product.create(req.body);
+            return res.status(201).json(newProduct);
+        }
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Error al guardar producto' });

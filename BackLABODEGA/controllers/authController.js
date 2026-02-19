@@ -64,7 +64,6 @@ export const login = async (req, res) => {
 
 export const getUsers = async (req, res) => {
   try {
-    // Buscamos todos los usuarios, pero EXCLUIMOS la contraseña por seguridad
     const users = await User.findAll({ 
       attributes: { exclude: ['password'] } 
     });
@@ -75,7 +74,6 @@ export const getUsers = async (req, res) => {
   }
 };
 
-// EDITAR USUARIO (Solo Admin)
 export const updateUser = async (req, res) => {
   try {
     const { id } = req.params;
@@ -86,11 +84,9 @@ export const updateUser = async (req, res) => {
       return res.status(404).json({ message: 'Usuario no encontrado' });
     }
 
-    // Actualizamos los campos que nos envíen
     if (username) user.username = username;
     if (role) user.role = role;
-    
-    // Si el admin decide cambiarle la contraseña al empleado
+  
     if (password) {
       const salt = await bcrypt.genSalt(10);
       user.password = await bcrypt.hash(password, salt);
@@ -108,7 +104,6 @@ export const updateUser = async (req, res) => {
   }
 };
 
-// ELIMINAR USUARIO (Solo Admin)
 export const deleteUser = async (req, res) => {
   try {
     const { id } = req.params;

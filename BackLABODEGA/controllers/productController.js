@@ -12,20 +12,21 @@ export const getAllProducts = async (req, res) => {
 
 export const createProduct = async (req, res) => {
     try {
-        const { name, provider, stock, cost, priceRetail, priceWholesale, wholesaleQty } = req.body;
+        const { name, provider, unit, stock, cost, priceRetail, priceWholesale, wholesaleQty } = req.body;
         
         const existingProduct = await Product.findOne({
             where: {
                 name: name,
-                provider: provider || 'General' 
+                provider: provider || 'General',
+                unit: unit || 'Pieza' 
             }
         });
 
         if (existingProduct) {
-            const oldStock = parseInt(existingProduct.stock) || 0;
+            const oldStock = parseFloat(existingProduct.stock) || 0;
             const oldCost = parseFloat(existingProduct.cost) || 0;
             
-            const newQty = parseInt(stock) || 0;
+            const newQty = parseFloat(stock) || 0;
             const newCost = parseFloat(cost) || 0;
 
             const totalStock = oldStock + newQty;

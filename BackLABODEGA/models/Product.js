@@ -11,8 +11,13 @@ const Product = sequelize.define('Product', {
         allowNull: true,       
         defaultValue: 'General' 
     }, 
+    unit: { 
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: 'Pieza'
+    },
     stock: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.DECIMAL(10, 2), 
         defaultValue: 0
     },
     cost: { 
@@ -29,7 +34,7 @@ const Product = sequelize.define('Product', {
         allowNull: false
     },
     wholesaleQty: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.DECIMAL(10, 2), 
         defaultValue: 1
     }
 }, {

@@ -35,7 +35,7 @@ connectDB();
 
 sequelize.sync()
     .then(() => console.log('✅ Tablas y relaciones sincronizadas.'))
-    .catch((error) => console.error('❌ Error al sincronizar:', error)););
+    .catch((error) => console.error('❌ Error al sincronizar:', error));
 
 
 app.use('/api/products', productRoutes);

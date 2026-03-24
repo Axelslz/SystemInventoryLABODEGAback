@@ -33,9 +33,9 @@ SaleItem.belongsTo(Product);
 
 connectDB();
 
-sequelize.sync({ alter: true })
+sequelize.sync()
     .then(() => console.log('✅ Tablas y relaciones sincronizadas.'))
-    .catch((error) => console.error('❌ Error al sincronizar:', error));
+    .catch((error) => console.error('❌ Error al sincronizar:', error)););
 
 
 app.use('/api/products', productRoutes);

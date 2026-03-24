@@ -9,5 +9,6 @@ router.get('/', protect, getAllProducts);
 router.post('/', protect, adminOnly, createProduct);
 router.put('/:id', protect, adminOnly, updateProduct);
 router.delete('/:id', protect, adminOnly, deleteProduct);
+router.post('/:id/stock', addStock);
 
 export default router;

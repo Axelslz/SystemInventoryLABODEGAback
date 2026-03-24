@@ -12,7 +12,7 @@ export const getAllProducts = async (req, res) => {
 
 export const createProduct = async (req, res) => {
     try {
-        const { name, provider, unit, stock, cost, priceRetail, priceWholesale, wholesaleQty } = req.body;
+        const { name, barcode, provider, unit, stock, cost, priceRetail, priceWholesale, wholesaleQty } = req.body;
         
         const existingProduct = await Product.findOne({
             where: {
@@ -86,5 +86,39 @@ export const deleteProduct = async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Error al eliminar producto' });
+    }
+};
+
+export const addStock = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { addedStock, newCost } = req.body;
+        
+        const product = await Product.findByPk(id);
+        if (!product) {
+            return res.status(404).json({ message: 'Producto no encontrado' });
+        }
+
+        const oldStock = parseFloat(product.stock) || 0;
+        const oldCost = parseFloat(product.cost) || 0;
+        const newQty = parseFloat(addedStock) || 0;
+        const costOfNew = parseFloat(newCost) || 0;
+
+        const totalStock = oldStock + newQty;
+        let averageCost = oldCost;
+
+        if (totalStock > 0) {
+            // Fórmula del costo promedio ponderado
+            averageCost = ((oldStock * oldCost) + (newQty * costOfNew)) / totalStock;
+        }
+
+        product.stock = totalStock;
+        product.cost = averageCost.toFixed(2);
+        
+        await product.save();
+        res.json(product);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error al agregar stock' });
     }
 };

@@ -25,3 +25,4 @@ export const connectDB = async () => {
 };
 
 export default sequelize;
+

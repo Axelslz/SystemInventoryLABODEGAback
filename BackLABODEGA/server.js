@@ -10,6 +10,7 @@ import StoreConfig from './models/StoreConfig.js';
 import User from './models/User.js';
 import Maintenance from './models/Maintenance.js'; 
 import Expense from './models/Expense.js'; 
+import ProductHistory from './models/ProductHistory.js';
 
 import productRoutes from './routes/productRoutes.js';
 import saleRoutes from './routes/saleRoutes.js';
@@ -30,6 +31,9 @@ SaleItem.belongsTo(Sale);
 
 Product.hasMany(SaleItem);
 SaleItem.belongsTo(Product);
+
+Product.hasMany(ProductHistory, { onDelete: 'CASCADE' });
+ProductHistory.belongsTo(Product);
 
 connectDB();
 
